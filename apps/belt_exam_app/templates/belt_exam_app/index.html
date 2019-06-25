@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'belt_exam_app/css/style.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet">
+    <title>Login / Registration</title>
+</head>
+<body>
+    <div class="container">   
+        <h1>Title</h1>
+        <!-- Registration Form -->
+        <div class="registration-block">
+            <form action="/register" method="POST">
+                {% csrf_token %}
+                <table class="table table-striped registration-table">
+                    <tr>
+                        <td colspan=2>
+                            <h3 class="title">Registration</h3>
+                        </td>
+                    </tr>    
+                    <tr>
+                        <td>
+                            <label for="name">Name</label>
+                        </td>
+                        <td>
+                            <input class="form-control" type="text" name="name" id="name" placeholder="Enter your name here.">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="alias">Alias</label>
+                        </td>
+                        <td>
+                            <input class="form-control" type="text" name="alias" id="alias" placeholder="Enter your last name here.">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="email">Email</label>
+                        </td>
+                        <td>
+                            <input class="form-control" type="email" name="email" id="email" placeholder="Enter your email here.">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="password">Password</label>
+                        </td>
+                        <td>
+                            <input class="form-control" type="password" name="password" id="password" placeholder="Enter your password here.">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="confirmation_password">Confirm Password</label>
+                        </td>
+                        <td>
+                            <input class="form-control" type="password" name="confirmation_password" id="confirmation_password" placeholder="Enter your confirmation password here.">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="date_of_birth">Date of Birth:</label>
+                        </td>
+                        <td>
+                            <input class="" width="50px" type="date" name="date_of_birth" id="date_of_birth" placeholder="Enter your Date of Birth.">
+                            <i class="far fa-calendar-alt"></i>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td colspan=2>
+                            <button class="btn btn-dark">Register</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+
+            <!-- Validation Check -->
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }} red"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+        </div>
+        
+        <!-- Login Form -->
+        <div class="login-block">
+            <form action="/login" method="POST">
+                {% csrf_token %}
+                <table class="table table-striped login-table">
+                    <tr>
+                        <td colspan=2>
+                            <h3 class="title">Login</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="email">Email</label>
+                        </td>
+                        <td>
+                            <input class="form-control" type="email" id="email" name="email" placeholder="Enter your email address here">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="password">Password</label>
+                        </td>
+                        <td>
+                            <input class="form-control" type="password" id="password" name="password" placeholder="Enter your password here">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan=2>
+                            <button class="btn btn-dark">Log In</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+
+        <div>
+            <h1 class="title">Registered Users</h1>
+            <table class="table table-striped">
+                <thead class="thead thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>name</th>
+                        <th>alias</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                {% for user in registered_users %}
+                <tr>
+                    <td>{{user.id}}</td>
+                    <td>{{user.name}}</td>
+                    <td>{{user.alias}}</td>
+                    <td>{{user.email}}</td>
+                </tr>
+                {% endfor %}
+            </table>    
+        </div>
+    </div>
+</body>
+</html>

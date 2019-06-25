@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'belt_exam_app/css/style.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <title>User Info</title>
+</head>
+<body>
+
+    <p class="logout">
+        <a href="/quotes">Dashboard</a> | <a href="/logout">Logout</a>
+    </p>
+
+    <h3>Posts by {{current_user.name}}</h3>
+    <h4>Count: {{num_posts}}</h4>
+    <div class="quote">
+        {% for posts in posts_by_user %}
+            <p><span class="red">{{posts.quoted_by}}: </span>{{posts.content}}</p>
+        {% endfor %}
+    </div>
+</body>
+</html>

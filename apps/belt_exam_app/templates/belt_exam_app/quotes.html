@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'belt_exam_app/css/style.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <title>Quotes</title>
+</head>
+<body>
+    <!-- Display all quotes form the database except that quotes that are on the logged user's Favorites list. -->
+    <!-- Posted by -->
+    <!-- Favorited_by -->
+
+    <h1>Welcome, {{current_user.name}}!</h1>
+    
+    <a href="/logout" class="logout">Logout</a>
+
+    <div class="quotable-quotes">
+        <h4>Quotable Quotes</h4>
+        <div class="quotes">
+            {% for quote in quotable_quotes %}
+            <div class="quote">
+                <p>{{quote.quoted_by}}:{{quote.content}}</p>
+                <p class="align-left">Posted by <a href="users/{{quote.created_by.id}}">{{quote.created_by.name}}</a></p>
+                <a class="align-right" href="add_to_favorites/{{quote.id}}"><button class="btn btn-primary">Add to my list</button></a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <div class="favorite-quotes">
+        <h4>Your Favorites</h4>
+        <div class="favorites">
+            {% for quote in favorite_quotes %}
+            <div class="quote">
+                <p>{{quote.quoted_by}}:{{quote.content}}</p>
+                <p>Posted by <a href="users/{{quote.created_by.id}}">{{quote.created_by.name}}</a></p>
+                <a href="remove_from_favorites/{{quote.id}}"><button class="btn btn-primary">Remove from my list</button></a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="contribute-form">
+        <form action="/add_quote" method="POST">
+            {% csrf_token %}
+            <table class="table">
+                <tr>
+                    <td colspan=2>
+                        <h2>Contribute a Quote:</h2>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="quoted-by">Quoted by:</label>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="quoted-by" id="quoted-by">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="message">Message:</label>
+                    </td>
+                    <td>
+                        <textarea class="form-control" name="message" id="message" rows="5" cols="10"></textarea>
+                        <p>
+                        <!-- Validation Check -->
+                        {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }} red"{% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan=2 class="submit-container">
+                        <button class="btn btn-primary">Submit</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+</body>
+</html>
